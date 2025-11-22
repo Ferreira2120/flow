@@ -41,13 +41,13 @@ public class LtySalvoRestController {
     }
 
     @GET
-    public Response buscarLtySalvoPorId(Long id){
+    @Path("/{id}")
+    public Response buscarLtySalvoPorId(@PathParam("id") Long id){
         try {
             LtySalvoDto ltySalvoDto = ltySalvoController.buscarPorIdController(id);
             return Response.status(Response.Status.ACCEPTED).entity(ltySalvoDto).build();
         }catch (RuntimeException e){
             return Response.status(Response.Status.NOT_FOUND).entity(Map.of("Error: ", "It is not possible to search for the save layout.")).build();
-
         }
     }
 

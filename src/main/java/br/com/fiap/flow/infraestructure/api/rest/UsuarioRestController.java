@@ -42,7 +42,8 @@ public class UsuarioRestController {
 
 
     @GET
-    public Response buscarUsuarioPorId(Long id){
+    @Path("/{id}")
+    public Response buscarUsuarioPorId(@PathParam("id") Long id){
         try {
             UsuarioDto usuarioDto = usuarioController.obterUsuarioPorId(id);
             return Response.status(Response.Status.ACCEPTED).entity(usuarioDto).build();
