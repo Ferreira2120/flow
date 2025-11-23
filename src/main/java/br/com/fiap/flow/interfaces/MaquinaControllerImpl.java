@@ -5,6 +5,8 @@ import br.com.fiap.flow.domain.service.MaquinaService;
 import br.com.fiap.flow.interfaces.dto.output.MaquinaDto;
 import br.com.fiap.flow.interfaces.mapper.MaquinaMapper;
 
+import java.util.List;
+
 public class MaquinaControllerImpl implements MaquinaController{
 
     private final MaquinaService maquinaService;
@@ -30,6 +32,12 @@ public class MaquinaControllerImpl implements MaquinaController{
     public MaquinaDto atualizarMaquina(Maquina maquina) {
         Maquina maquina1 =maquinaService.atualizarService(maquina);
         return MaquinaMapper.toDtoMaquina(maquina1);
+    }
+
+    @Override
+    public List<MaquinaDto> obterTodasMaquinas() {
+        List<Maquina> maquinas = maquinaService.buscarTodosService();
+        return MaquinaMapper.toDtoListMaquina(maquinas);
     }
 
     @Override

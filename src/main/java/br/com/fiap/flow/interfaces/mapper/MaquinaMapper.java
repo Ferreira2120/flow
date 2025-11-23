@@ -3,6 +3,8 @@ package br.com.fiap.flow.interfaces.mapper;
 import br.com.fiap.flow.domain.model.Maquina;
 import br.com.fiap.flow.interfaces.dto.output.MaquinaDto;
 
+import java.util.List;
+
 public class MaquinaMapper {
 
     public MaquinaMapper() {
@@ -17,4 +19,9 @@ public class MaquinaMapper {
         );
         return maquinaDto;
     }
+
+    public static List<MaquinaDto> toDtoListMaquina(List<Maquina> maquinas){
+        return maquinas.stream().map(MaquinaMapper::toDtoMaquina).toList();
+    }
+
 }

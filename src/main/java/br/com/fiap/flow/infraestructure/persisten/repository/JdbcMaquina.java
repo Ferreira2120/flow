@@ -9,6 +9,8 @@ import br.com.fiap.flow.infraestructure.persisten.ConnectionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+
 
 public class JdbcMaquina implements MaquinaRepository {
 
@@ -87,6 +89,31 @@ public class JdbcMaquina implements MaquinaRepository {
             throw new ExceptionOfInfra("Erro ao atualizar máquina!", e);
         }
     }
+
+    @Override
+    public List<Maquina> buscarTodos() {
+        String sql = "SELECT * FROM T_MAQUINA";
+
+        try(Connection conn = this.connectionDB.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            var rs = stmt.executeQuery();
+            List<Maquina> maquinas = new java.util.ArrayList<>();
+
+            while (rs.next()) {
+                Maquina maquina = new Maquina(
+                    rs.getLong("ID_MAQUINA"),
+                    rs.getString("NM_MAQUINA"),
+                    rs.getFloat("NR_TEMPO_CICLO"),
+                    rs.getString("DS_DESCRICAO")
+                );
+                maquinas.add(maquina);
+            }
+            return maquinas;
+        }catch (SQLException e) {
+            throw new ExceptionOfInfra("Erro ao buscar todas as máquinas!", e);
+        }
+    }
+
 
     @Override
     public void deletar(Long idMaquina) {

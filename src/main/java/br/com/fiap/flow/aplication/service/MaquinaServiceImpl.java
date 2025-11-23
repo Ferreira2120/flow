@@ -4,6 +4,8 @@ import br.com.fiap.flow.domain.model.Maquina;
 import br.com.fiap.flow.domain.repository.MaquinaRepository;
 import br.com.fiap.flow.domain.service.MaquinaService;
 
+import java.util.List;
+
 public class MaquinaServiceImpl implements MaquinaService {
 
     private final MaquinaRepository maquinaRepository;
@@ -25,6 +27,11 @@ public class MaquinaServiceImpl implements MaquinaService {
     @Override
     public Maquina atualizarService(Maquina maquina) {
         return this.maquinaRepository.atualizar(maquina);
+    }
+
+    @Override
+    public List<Maquina> buscarTodosService() {
+        return this.maquinaRepository.buscarTodos();
     }
 
     @Override
