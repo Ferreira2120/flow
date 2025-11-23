@@ -1,59 +1,112 @@
-# flow
+# Flow
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Backend do sistema Flow, responsável pelo gerenciamento e organização dos layouts de máquinas utilizados pelo front-end.  
+Desenvolvido em **Java 17** com **Quarkus**, seguindo arquitetura limpa, separação por camadas e uso de DTOs para garantir clareza e manutenibilidade.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+![Java](https://img.shields.io/badge/Java-17-blue)
+![Quarkus](https://img.shields.io/badge/Quarkus-3.0-red)
+![Status](https://img.shields.io/badge/Build-Estável-brightgreen)
 
-## Running the application in dev mode
+---
 
-You can run your application in dev mode that enables live coding using:
+## 📚 Sumário
+- [Sobre](#sobre)
+- [Tecnologias](#tecnologias)
+- [Endpoints](#endpoints)
+- [Estrutura do Código](#estrutura-do-código)
+- [Como Rodar](#como-rodar)
+- [Fluxo Interno](#fluxo-interno)
 
-```shell script
-./mvnw quarkus:dev
-```
+---
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+## 📌 Sobre
 
-## Packaging and running the application
+O backend do **Flow** gerencia os layouts e posições das máquinas de produção.  
+Ele fornece uma API REST utilizada pelo front-end para exibir, posicionar, mover e atualizar máquinas dentro de uma grade visual.
 
-The application can be packaged using:
+O foco principal é:
+- CRUD completo de layouts
+- Padronização por DTOs
+- Camada de serviço isolada
+- Repositórios com Panache para operações de banco
+- Código limpo e modular
 
-```shell script
-./mvnw package
-```
+---
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## 🛠 Tecnologias
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+- **Java**
+- **Quarkus**
+- **Maven**
+- **Docker**
+- **SQL Developer**
 
-If you want to build an _über-jar_, execute the following command:
+---
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+## 🔗 Endpoints
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+### **GET `/layout-maquina`**
+Retorna todos os layouts cadastrados.
 
-## Creating a native executable
+### **GET `/layout-maquina/{id}`**
+Retorna um layout específico pelo ID.  
+Retorna **404** caso não exista.
 
-You can create a native executable using:
+### **POST `/layout-maquina`**
+Cria um novo layout.  
+Retorna **201** com o objeto criado.
 
-```shell script
-./mvnw package -Dnative
-```
+### **PUT `/layout-maquina/{id}`**
+Atualiza um layout existente.  
+Retorna o objeto atualizado.
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+### **DELETE `/layout-maquina/{id}`**
+Remove um layout existente.  
+Retorna **204** quando removido.  
+Retorna **404** caso o ID não exista.
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
+---
 
-You can then execute your native executable with: `./target/flow-1.0.0-SNAPSHOT-runner`
+## 🧩 Estrutura do Código
+````
+src/
+└── main/
+├── java/br/com/fiap/flow/
+│ ├── domain/ → entidades (JPA)
+│ ├── interfaces/ → controllers (REST)
+│ ├── infraestructure/ → repositórios Panache
+│ └── application/ → serviços e regras de negócio
+└── resources/
+├── application.properties
+└── import.sql
+````
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+---
 
-## Related Guides
 
-- Agroal - DB connection pool ([guide](https://quarkus.io/guides/datasource)): JDBC Datasources and connection pooling
-- JDBC Driver - Oracle ([guide](https://quarkus.io/guides/datasource)): Connect to the Oracle database via JDBC
+### **Domain (Entidades)**
+Contém as classes que representam tabelas do banco.  
+Exemplo: `LtyMaquina.java`
+
+### **Interfaces (Controllers)**
+Contêm os endpoints REST.  
+Exemplo: `LtyMaquinaRest.java`
+
+### **Infraestructure (Repository)**
+Repositórios usando **Panache** para acesso ao banco.  
+Exemplo: `LtyMaquinaRepository.java`
+
+### **Application (Service)**
+Camada de regra de negócio.  
+Converte Entity ↔ DTO.  
+Exemplo: `LtyMaquinaService.java`
+
+### **DTOs**
+Objetos usados para entrada e saída.  
+Evita expor a entidade diretamente.
+
+---
+
+## 🔗 Link API
+
+ - Flow Api: [Flow](https://flow-fkxo.onrender.com)
